@@ -1,5 +1,6 @@
 package local.mso.controllers;
 
+import local.mso.exception.RecursoNaoEncontradoException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,13 +14,13 @@ public class MathController {
                       @PathVariable String numberTwo) throws Exception {
 
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)){
-            throw new IllegalArgumentException();
+            throw new RecursoNaoEncontradoException("The value is not numeric!");
         }
         return converterToDouble(numberOne) + converterToDouble(numberTwo);
     }
 
     private Double converterToDouble(String strNumber)  throws Exception {
-        if (strNumber.isEmpty() || strNumber == null){ throw new IllegalArgumentException();}
+        if (strNumber.isEmpty() || strNumber == null){ throw new RecursoNaoEncontradoException("The value is not numeric!");}
         String number = strNumber.replace(",",".");
         return Double.parseDouble(number);
     }
